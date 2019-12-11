@@ -1,6 +1,6 @@
 output service {
-  value = kubernetes_service.svc-redis.metadata.0.name
+  value = local.fullname
 }
 output dns {
-  value = "${kubernetes_service.svc-redis.metadata.0.name}.${var.namespace}.svc.cluster.local"
+  value = "${local.fullname}.${var.namespace}.svc.cluster.local"
 }

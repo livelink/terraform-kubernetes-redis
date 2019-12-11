@@ -1,7 +1,8 @@
-resource "kubernetes_service" "svc-redis" {
+resource kubernetes_service redis {
+  count = var.ignore ? 0 : 1
   metadata {
     name = local.fullname
-    namespace = "${var.namespace}"
+    namespace = var.namespace
   }
 
   spec {
@@ -19,10 +20,11 @@ resource "kubernetes_service" "svc-redis" {
   }
 }
 
-resource "kubernetes_deployment" "redis-app" {
+resource kubernetes_deployment redis {
+  count = var.ignore ? 0 : 1
   metadata {
     name = local.fullname
-    namespace = "${var.namespace}"
+    namespace = var.namespace
 
     labels = {
       "app.kubernetes.io/component" = "redis"
@@ -33,7 +35,7 @@ resource "kubernetes_deployment" "redis-app" {
   }
 
   spec {
-    replicas = "${var.replicas_count}"
+    replicas = var.replicas_count
 
     selector {
       match_labels = {
