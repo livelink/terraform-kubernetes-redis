@@ -55,9 +55,35 @@ resource kubernetes_deployment redis {
       }
 
       spec {
+        active_deadline_seconds = 0
+        automount_service_account_token = false
+        dns_policy = "ClusterFirst"
+        enable_service_links            = false
+        host_ipc = false
+        host_network = false
+        host_pid = false
+        node_selector = {}
+        restart_policy = "Always"
+        share_process_namespace = false
+        termination_grace_period_seconds = 30
         container {
+          args = var.instance_invocation_args
+          command = []
           image = local.image
           name  = "redis"
+          image_pull_policy = "Always"
+          stdin = false
+          stdin_once = false
+          termination_message_path = "/dev/termination-log"
+          tty = false
+
+          resources {
+            requests = local.resource_requests
+            limits   = local.resource_limits
+            }
+          }
+
+          }
         }
       }
     }
