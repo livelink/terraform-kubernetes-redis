@@ -1,6 +1,6 @@
 variable app_version {
   description = "Version of Docker image to spin up"
-  default = "latest"
+  default     = "latest"
 }
 
 variable client_name {
@@ -13,30 +13,30 @@ variable environment {
 
 variable service {
   description = "Redis service to run"
-  default = "generic"
+  default     = "generic"
 }
 
 variable replicas_count {
   description = "Number of replicas to run on k8s cluster"
-  default = 1
+  default     = 1
 }
 
 variable namespace {
   description = "The ID for the namespace this environment lives in - override with client name for multi-tennanted clients"
-  default = "default"
+  default     = "default"
 }
 
 variable ignore {
   description = "whether to create these things"
-  default = false
+  default     = false
 }
 
 variable part_of {}
 
 locals {
   resource_limits = {
-    cpu     = try(var.resource_limits["cpu"], "1")
-    memory  = try(var.resource_limits["memory"], "128Mi")
+    cpu    = try(var.resource_limits["cpu"], "1")
+    memory = try(var.resource_limits["memory"], "128Mi")
   }
 
   resource_requests = {
