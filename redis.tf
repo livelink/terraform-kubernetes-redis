@@ -3,6 +3,11 @@ resource kubernetes_service redis {
   metadata {
     name      = local.fullname
     namespace = var.namespace
+
+    annotations = var.gke_neg ? {
+      "cloud.google.com/neg-status" = ""                             # Eliminates Terraform diff
+      "cloud.google.com/neg"        = jsonencode({ ingress = true }) # Eliminates Terraform diff
+    } : {}
   }
 
   spec {
@@ -17,6 +22,12 @@ resource kubernetes_service redis {
       name        = "redis"
       target_port = 6379
     }
+  }
+
+  lifecycle {
+    ignore_changes = [
+      metadata.0.annotations["cloud.google.com/neg-status"]
+    ]
   }
 }
 
