@@ -1,8 +1,19 @@
 resource kubernetes_service redis {
   count = var.ignore ? 0 : 1
+
   metadata {
     name      = local.fullname
     namespace = var.namespace
+
+    annotations = var.gke_neg ? {
+      "cloud.google.com/neg-status" = ""                             # Eliminates Terraform diff
+      "cloud.google.com/neg"        = jsonencode({ ingress = true }) # Eliminates Terraform diff
+    } : {}
+
+    labels = {
+      "app.kubernetes.io/name"    = local.fullname
+      "app.kubernetes.io/part-of" = "redis"
+    }
   }
 
   spec {
@@ -18,10 +29,17 @@ resource kubernetes_service redis {
       target_port = 6379
     }
   }
+
+  lifecycle {
+    ignore_changes = [
+      metadata.0.annotations["cloud.google.com/neg-status"]
+    ]
+  }
 }
 
 resource kubernetes_deployment redis {
   count = var.ignore ? 0 : 1
+
   metadata {
     name      = local.fullname
     namespace = var.namespace

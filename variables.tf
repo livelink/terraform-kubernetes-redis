@@ -56,3 +56,11 @@ variable resource_requests {
 variable instance_invocation_args {
   default = []
 }
+
+variable gke_neg {
+  description =<<EOF
+Handle GKE NEG auto annotations.
+https://cloud.google.com/kubernetes-engine/docs/how-to/container-native-load-balancing
+EOF
+  default = false
+}
