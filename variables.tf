@@ -36,12 +36,12 @@ variable part_of {}
 locals {
   resource_limits = {
     cpu    = try(var.resource_limits["cpu"], "1")
-    memory = try(var.resource_limits["memory"], "128Mi")
+    memory = try(var.resource_limits["memory"], "1Gi")
   }
 
   resource_requests = {
     cpu    = try(var.resource_requests["cpu"], "0.1")
-    memory = try(var.resource_requests["memory"], "1Gi")
+    memory = try(var.resource_requests["memory"], "128Mi")
   }
 }
 
