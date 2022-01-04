@@ -73,7 +73,6 @@ resource kubernetes_deployment redis {
       }
 
       spec {
-        active_deadline_seconds          = 0
         automount_service_account_token  = false
         dns_policy                       = "ClusterFirst"
         enable_service_links             = false
@@ -84,6 +83,7 @@ resource kubernetes_deployment redis {
         restart_policy                   = "Always"
         share_process_namespace          = false
         termination_grace_period_seconds = 30
+
         container {
           args                     = var.instance_invocation_args
           command                  = []
